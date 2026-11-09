@@ -201,3 +201,170 @@ Una reserva que aparece después de reiniciar confirma persistencia en MongoDB; 
 ## 12. Comparación con TP 07
 
 En TP 07, la web guardaba las reservas en memoria; MongoDB se usaba solo mediante scripts. En TP 08, la web y la API consultan y guardan reservas en MongoDB, por lo que los datos persisten al reiniciar. TP 08 también agrega endpoints JSON y usa ObjectId en lugar de IDs numéricos. La aplicación conserva las páginas web y las validaciones principales.
+
+## 13. Instrucciones para reproducir las solicitudes en Postman
+# ------------------------------------------------------------------------------------
+GET de una reserva: http://localhost:3000/api/reservas Send
+Respuesta Esperada: 200
+[
+    {
+        "id": "6aef3c195cecffbc64ee3daf",
+        "estudiante": "Abel",
+        "email": "LocoAbel@gmail.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-10-22",
+        "turno": "Tarde",
+        "personas": 4,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af043699f663c678aa90681",
+        "estudiante": "Pablito Clavounclavito",
+        "email": "pablito@gmail.com",
+        "sala": "Sala Multimedia",
+        "fecha": "2026-11-30",
+        "turno": "Mañana",
+        "personas": 1,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af1885a4d5fc385e0187ecf",
+        "estudiante": "Alvaro Rodriguez",
+        "email": "AlvaroR@hotmail.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-12-24",
+        "turno": "Mañana",
+        "personas": 3,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af19029f5a40f2230582637",
+        "estudiante": "Ana Ejemplo",
+        "email": "ana@example.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-10-21",
+        "turno": "Mañana",
+        "personas": 2,
+        "estado": "pendiente"
+    }
+]
+# ------------------------------------------------------------------------------------
+Post de una reserva: http://localhost:3000/api/reservas 
+En body seleccionar raw y colocar: 
+{
+ "estudiante": "Anabel Ejemplo",
+ "email": "ana@example.com",
+ "sala": "Sala Norte",
+ "fecha": "2026-10-21",
+ "turno": "Mañana",
+ "personas": 2
+} 
+
+Luego Send
+
+Respuesta Esperada: 201
+{
+    "id": "6af19d03158c23f20793fe13",
+    "estudiante": "Anabel Ejemplo",
+    "email": "ana@example.com",
+    "sala": "Sala Norte",
+    "fecha": "2026-10-21",
+    "turno": "Mañana",
+    "personas": 2,
+    "estado": "pendiente"
+}
+# ------------------------------------------------------------------------------------
+Get de ID: http://localhost:3000/api/reservas/6aef3c195cecffbc64ee3daf
+
+Respuesta esperada: 200
+{
+    "id": "6aef3c195cecffbc64ee3daf",
+    "estudiante": "Abel",
+    "email": "LocoAbel@gmail.com",
+    "sala": "Sala Norte",
+    "fecha": "2026-10-22",
+    "turno": "Tarde",
+    "personas": 4,
+    "estado": "pendiente"
+}
+# ------------------------------------------------------------------------------------
+Get de ID (Producto no validado): http://localhost:3000/api/reservas/1236456 Send
+Respuesta Esperada: 400
+{
+    "error": "El identificador debe tener 24 caracteres hexadecimales.",
+    "campos": []
+}
+# ------------------------------------------------------------------------------------
+Get de ID (Validado pero no encuentra el producto): http://localhost:3000/api/reservas/000000000000000000000000 Send
+Respuesta esperada: 404
+{
+    "error": "No existe reserva con ese identificador."
+}
+# ------------------------------------------------------------------------------------
+Get de reserva por Params: 
+http://localhost:3000/api/reservas?sala=Sala Norte
+Key: sala - Value: Sala norte
+Respuesta esperada: 200
+[
+    {
+        "id": "6aef3c195cecffbc64ee3daf",
+        "estudiante": "Abel",
+        "email": "LocoAbel@gmail.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-10-22",
+        "turno": "Tarde",
+        "personas": 4,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af1885a4d5fc385e0187ecf",
+        "estudiante": "Alvaro Rodriguez",
+        "email": "AlvaroR@hotmail.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-12-24",
+        "turno": "Mañana",
+        "personas": 3,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af19029f5a40f2230582637",
+        "estudiante": "Ana Ejemplo",
+        "email": "ana@example.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-10-21",
+        "turno": "Mañana",
+        "personas": 2,
+        "estado": "pendiente"
+    },
+    {
+        "id": "6af19d03158c23f20793fe13",
+        "estudiante": "Anabel Ejemplo",
+        "email": "ana@example.com",
+        "sala": "Sala Norte",
+        "fecha": "2026-10-21",
+        "turno": "Mañana",
+        "personas": 2,
+        "estado": "pendiente"
+    }
+]
+
+http://localhost:3000/api/reservas?sala=Sala Sudeste
+Key:sala - Value: Sala Sudeste
+Respuesta esperada: 200
+[]
+
+http://localhost:3000/api/reservas?sala=Sala Norte&sala=Sala Sur
+Key:sala - Value: Sala Norte
+Key:sala - Value: Sala Sur
+Respuesta esperada: 400
+{
+    "error": "Revisá los datos enviados.",
+    "campos": []
+}
+# ------------------------------------------------------------------------------------
+
+## Que dejo de importarse del servicio en memoria:
+
+En TP 07, `src/index.js` importaba `crearServicioReservas` desde `src/servicios/reservas.js` y lo inicializaba con un arreglo de reservas. Ese servicio guardaba los datos durante la ejecución del proceso: `listar` devolvía el arreglo, `obtenerPorId` buscaba por ID numérico y `crear` agregaba la nueva reserva con `push`.
+
+En TP 08, ese import y el arreglo inicial dejaron de usarse en el arranque. `src/index.js` ahora importa e inicializa `crearServicioReservasMongo` desde `src/servicios/reservas-mongo.js`, después de conectar con MongoDB. El servicio consulta y crea documentos mediante el modelo `Reserva`; sus operaciones son asíncronas y los IDs son ObjectId. El archivo del servicio en memoria permanece en el proyecto, pero no es el que usan las rutas activas.
