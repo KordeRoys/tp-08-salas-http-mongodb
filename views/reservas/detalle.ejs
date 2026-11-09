@@ -1,0 +1,15 @@
+<!--Este es el detalle mostrado en /reservas/:id-->
+<article class="detalle">
+    <h1>
+        <%= reserva.estudiante %>
+    </h1>
+    <!--Detalle carga y muestra los datos del json ya guardado-->
+    <p><%=reserva.estudiante %></p>
+                <p><%=reserva.email %></p>
+                <p><%=reserva.sala %></p>
+                <p><%=reserva.fecha %></p>
+                <p>Turno:<%=reserva.turno %></p>
+                <p>Cantidad de personas:<%=reserva.personas %></p>
+    
+    <a href="/reservas">Volver a la lista</a>
+</article>

@@ -1,0 +1,59 @@
+<!--Este es el formulario que va a utilizar el archivo /rutas/reservas.js-->
+
+<section>
+    <p class="etiqueta">NUEVO INGRESO</p>
+    <h1>
+        <%= titulo %>
+    </h1>
+    <a class="boton" href="/reservas">Volver</a>
+
+    <% if (error) { %>
+        <p class="error" role="alert">
+            <%= error %>
+        </p>
+        <% } %>
+            <!-- action="/reservas" es la ruta del Post en /rutas/reservas.js -->
+            <form action="/reservas" method="post" class="formulario"> <!--action es un atributo que especifica la URL a la que se enviarán los datos del formulario-->
+
+                <label for="estudiante">Participante</label>
+                <input id="estudiante" name="estudiante" value="<%= valores.estudiante || '' %>" required> <!-- "<%= valores.estudiante || '' %>" valores.estudiante se va a usar para mostrar el valor del campo estudiante en el formulario, valores viene del middleware en reservas.js -->
+
+                <label for="email"> Correo Electronico</label>
+                <input id="email" name="email" type="email" value="<%= valores.email || '' %>" required>
+
+                <label for="sala">Ingrese Sala</label>
+                <select id="sala" name="sala" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Sala Multimedia" <%= valores.sala === "Sala Multimedia" ? "selected" : "" %> >Sala Multimedia</option> <!-- "selected" es el atributo que se agrega cuando el valor del campo coincide con la opción, ese atributo se usa para preseleccionar una opción en un select -->
+                    <option value="Sala Norte" <%= valores.sala === "Sala Norte" ? "selected" : "" %> >Sala Norte</option> <!-- ? es el operador ternario y : es el operador de asignación -->
+                    <option value="Sala Sur" <%= valores.sala === "Sala Sur" ? "selected" : "" %> >Sala Sur</option>
+                    <!-- Los valores del formulario tienen que coincidir exactamente con la validacion del index-->
+                </select>
+
+                <label for="fecha">Ingrese la fecha</label>
+                <input type="date" id="fecha" name="fecha" value="<%= valores.fecha || '' %>" required>
+
+                <label for="turno">Seleccione el turno</label>
+                <select id="turno" name="turno" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Mañana" <%= valores.turno === "Mañana" ? "selected" : "" %> >Mañana</option> <!-- === es el operador de igualdad estricta -->
+                    <option value="Tarde" <%= valores.turno === "Tarde" ? "selected" : "" %> >Tarde</option>
+                    <option value="Noche" <%= valores.turno === "Noche" ? "selected" : "" %> >Noche</option>
+                    <!-- Los valores del formulario tienen que coincidir exactamente con la validacion del index-->
+                </select>
+
+                <label for="personas">Cantidad de personas: ( Entre 1 y 6 maximo)</label>
+                <select id="personas" name="personas" required>
+                    <option value="">Seleccionar personas</option>
+                    <option value="1" <%= valores.personas === "1" ? "selected" : "" %> >1</option>  <!-- -->
+                    <option value="2" <%= valores.personas === "2" ? "selected" : "" %> >2</option>
+                    <option value="3" <%= valores.personas === "3" ? "selected" : "" %> >3</option>
+                    <option value="4" <%= valores.personas === "4" ? "selected" : "" %> >4</option>
+                    <option value="5" <%= valores.personas === "5" ? "selected" : "" %> >5</option>
+                    <option value="6" <%= valores.personas === "6" ? "selected" : "" %> >6</option>
+                </select>
+
+                <button type="submit">Confirmar Nueva reserva</button>
+            </form>
+
+</section>
