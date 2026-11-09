@@ -380,7 +380,9 @@ Respuesta esperada: 200.
 http://localhost:3000/api/reservas?sala=Sala Norte&sala=Sala Sur.
 
 Key:sala - Value: Sala Norte.
+
 Key:sala - Value: Sala Sur.
+
 Respuesta esperada: 400.
 ```json
 {
