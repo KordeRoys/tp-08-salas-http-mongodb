@@ -203,9 +203,11 @@ Una reserva que aparece después de reiniciar confirma persistencia en MongoDB; 
 En TP 07, la web guardaba las reservas en memoria; MongoDB se usaba solo mediante scripts. En TP 08, la web y la API consultan y guardan reservas en MongoDB, por lo que los datos persisten al reiniciar. TP 08 también agrega endpoints JSON y usa ObjectId en lugar de IDs numéricos. La aplicación conserva las páginas web y las validaciones principales.
 
 ## 13. Instrucciones para reproducir las solicitudes en Postman
-# ------------------------------------------------------------------------------------
-GET de una reserva: http://localhost:3000/api/reservas Send
-Respuesta Esperada: 200
+# --------------------------------------------------------------
+GET de una reserva: http://localhost:3000/api/reservas Send.
+
+Respuesta Esperada: 200.
+```json
 [
     {
         "id": "6aef3c195cecffbc64ee3daf",
@@ -248,9 +250,12 @@ Respuesta Esperada: 200
         "estado": "pendiente"
     }
 ]
-# ------------------------------------------------------------------------------------
-Post de una reserva: http://localhost:3000/api/reservas 
+```
+# --------------------------------------------------------------
+Post de una reserva: http://localhost:3000/api/reservas .
+
 En body seleccionar raw y colocar: 
+```json
 {
  "estudiante": "Anabel Ejemplo",
  "email": "ana@example.com",
@@ -259,10 +264,11 @@ En body seleccionar raw y colocar:
  "turno": "Mañana",
  "personas": 2
 } 
+```
+Luego Send.
 
-Luego Send
-
-Respuesta Esperada: 201
+Respuesta Esperada: 201.
+```json
 {
     "id": "6af19d03158c23f20793fe13",
     "estudiante": "Anabel Ejemplo",
@@ -273,10 +279,12 @@ Respuesta Esperada: 201
     "personas": 2,
     "estado": "pendiente"
 }
-# ------------------------------------------------------------------------------------
-Get de ID: http://localhost:3000/api/reservas/6aef3c195cecffbc64ee3daf
+```
+# --------------------------------------------------------------
+Get de ID: http://localhost:3000/api/reservas/6aef3c195cecffbc64ee3daf Send.
 
-Respuesta esperada: 200
+Respuesta esperada: 200.
+```json
 {
     "id": "6aef3c195cecffbc64ee3daf",
     "estudiante": "Abel",
@@ -287,24 +295,35 @@ Respuesta esperada: 200
     "personas": 4,
     "estado": "pendiente"
 }
-# ------------------------------------------------------------------------------------
-Get de ID (Producto no validado): http://localhost:3000/api/reservas/1236456 Send
-Respuesta Esperada: 400
+```
+# --------------------------------------------------------------
+Get de ID (Producto no validado): http://localhost:3000/api/reservas/1236456 Send.
+
+Respuesta Esperada: 400.
+```json
 {
     "error": "El identificador debe tener 24 caracteres hexadecimales.",
     "campos": []
 }
-# ------------------------------------------------------------------------------------
-Get de ID (Validado pero no encuentra el producto): http://localhost:3000/api/reservas/000000000000000000000000 Send
-Respuesta esperada: 404
+```
+# --------------------------------------------------------------
+Get de ID (Validado pero no encuentra el producto): http://localhost:3000/api/reservas/000000000000000000000000 Send.
+
+Respuesta esperada: 404.
+```json
 {
     "error": "No existe reserva con ese identificador."
 }
-# ------------------------------------------------------------------------------------
+```
+# --------------------------------------------------------------
 Get de reserva por Params: 
-http://localhost:3000/api/reservas?sala=Sala Norte
+
+http://localhost:3000/api/reservas?sala=Sala Norte.
+
 Key: sala - Value: Sala norte
+
 Respuesta esperada: 200
+```json
 [
     {
         "id": "6aef3c195cecffbc64ee3daf",
@@ -347,23 +366,31 @@ Respuesta esperada: 200
         "estado": "pendiente"
     }
 ]
+```
 
-http://localhost:3000/api/reservas?sala=Sala Sudeste
-Key:sala - Value: Sala Sudeste
-Respuesta esperada: 200
+http://localhost:3000/api/reservas?sala=Sala Sudeste.
+
+Key:sala - Value: Sala Sudeste.
+
+Respuesta esperada: 200.
+```json
 []
+```
 
-http://localhost:3000/api/reservas?sala=Sala Norte&sala=Sala Sur
-Key:sala - Value: Sala Norte
-Key:sala - Value: Sala Sur
-Respuesta esperada: 400
+http://localhost:3000/api/reservas?sala=Sala Norte&sala=Sala Sur.
+
+Key:sala - Value: Sala Norte.
+Key:sala - Value: Sala Sur.
+Respuesta esperada: 400.
+```json
 {
     "error": "Revisá los datos enviados.",
     "campos": []
 }
+```
 # ------------------------------------------------------------------------------------
 
-## Que dejo de importarse del servicio en memoria:
+## 14. Que dejo de importarse del servicio en memoria:
 
 En TP 07, `src/index.js` importaba `crearServicioReservas` desde `src/servicios/reservas.js` y lo inicializaba con un arreglo de reservas. Ese servicio guardaba los datos durante la ejecución del proceso: `listar` devolvía el arreglo, `obtenerPorId` buscaba por ID numérico y `crear` agregaba la nueva reserva con `push`.
 
